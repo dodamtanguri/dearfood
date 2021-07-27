@@ -2,8 +2,9 @@ package com.dongwon.dearfood.contents.service;
 
 
 import com.dongwon.dearfood.contents.domain.Product;
+import com.dongwon.dearfood.contents.domain.ProductApiDomain;
+import com.dongwon.dearfood.contents.domain.ProductDomain;
 import com.dongwon.dearfood.contents.repositroy.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,12 @@ public class ProductService {
         return productRepository.getProductDetail();
     }
 
+    public ProductApiDomain getProductDetailList(int keyword) {
+        ProductApiDomain domain = new ProductApiDomain();
+        domain.setProductList(productRepository.getProductDetailList(keyword));
+
+
+        return domain;
+
+    }
 }

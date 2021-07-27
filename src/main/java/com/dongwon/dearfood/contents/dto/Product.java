@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ProductDTO {
+public class Product {
     private int id;
     private int category_id;
     private String product_name;
