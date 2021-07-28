@@ -30,7 +30,7 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Erro")
+            @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @GetMapping(value = "/products")
     public List<Product> productList() throws Exception {
@@ -43,10 +43,15 @@ public class ProductController {
         return service.getProductDetailList(keyword);
     }
 
-    @PostMapping(value = "/addproduct", produces = MediaType.MULTIPART_FORM_DATA_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public AddProductApiDomain addProduct(@RequestBody AddProductReq addReq,
-                                          @RequestParam(name = "productImage", required = false) MultipartFile productImage) throws IOException {
-        return service.addProduct(addReq, productImage);
+    @PostMapping(value = "/addproduct")
+    public AddProductApiDomain addProduct(
+            @RequestParam(name = "categoryId", defaultValue = "8") int categoryId,
+            @RequestParam(name = "productName", defaultValue = "test") String productName,
+            @RequestParam(name = "price", defaultValue = "10000") String price,
+            @RequestParam(name = "description", defaultValue = "test") String description,
+            @RequestParam(name = "content", defaultValue = "test") String content,
+            @RequestPart(name = "productImage") MultipartFile productImage) throws IOException {
+        return service.addProduct(categoryId, productName, price, description, content, productImage);
     }
 
 }

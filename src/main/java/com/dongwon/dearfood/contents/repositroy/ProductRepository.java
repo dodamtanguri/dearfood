@@ -1,6 +1,7 @@
 package com.dongwon.dearfood.contents.repositroy;
 
 import com.dongwon.dearfood.contents.domain.*;
+import com.dongwon.dearfood.contents.domain.request.AddProduct;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,24 @@ public class ProductRepository {
     }
 
     public AddProductApiDomain addProduct(AddProductReq addReq) {
-        return mapper.addProduct(addReq);
+        AddProductApiDomain addProduct = new AddProductApiDomain();
+        mapper.addProduct(addReq);
+        addProduct.setProductId(addReq.getId());
+        addProduct.setProductName(addReq.getProductName());
+        return addProduct;
     }
 
-    public UploadImageDomain addImage(UploadImageDomain image) {
-       return mapper.addImage(image);
+    public int addProductImage(int fileId, int productId) {
+        AddProductFile file = AddProductFile.builder()
+                .fileId(fileId)
+                .productId(productId)
+                .build();
+        mapper.addProductImage(file);
+        return file.getId();
     }
 
-    public void addProductImage(int productId,int fileId) {
-        mapper.addProductImage(productId,fileId);
+    public int addProductFile(UploadImageDomain image) {
+        mapper.addProductFile(image);
+        return image.getId();
     }
 }

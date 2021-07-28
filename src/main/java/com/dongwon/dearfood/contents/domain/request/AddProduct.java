@@ -2,18 +2,16 @@ package com.dongwon.dearfood.contents.domain.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
-@AllArgsConstructor
 @ApiModel(description = "상품 등록 Request")
-
-public class AddProductReq {
-    private int id;
+public class AddProduct {
+    //private int id;
     @ApiModelProperty(name = "하위카테고리 번호", example = "8")
     private int category_id;
     @ApiModelProperty(name = "상품명", example = "test")
@@ -25,4 +23,3 @@ public class AddProductReq {
     @ApiModelProperty(name = "상품상세설명", example = "test 상품 상세 설명")
     private String content;
 }
-
