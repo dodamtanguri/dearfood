@@ -45,4 +45,7 @@ public interface ProductMapper {
 
     @Update("UPDATE product SET delete_flag = 'Y' WHERE id = #{productId};")
     public boolean deleteProduct(@Param("productId") int productId);
+
+    @Update("UPDATE product SET price = #{modifyPrice} WHERE id = #{productId}")
+    boolean modifyPrice(@Param("productId") int productId, @Param("modifyPrice") String modifyPrice);
 }

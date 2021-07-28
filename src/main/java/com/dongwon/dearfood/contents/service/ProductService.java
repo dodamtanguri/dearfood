@@ -92,15 +92,27 @@ public class ProductService {
     public ClientMessage deleteProduct(int productId) {
         ClientMessage clientMessage = new ClientMessage();
         boolean delete = productRepository.deleteProduct(productId);
+        clientMessage.setProductId(productId);
         if (!delete) {
-            clientMessage.setProductId(0);
             clientMessage.setStatus("fail");
         } else {
-            clientMessage.setProductId(productId);
             clientMessage.setStatus("success!");
         }
 
 
+        return clientMessage;
+    }
+
+    public ClientMessage modifyPrice(int productId,String modifyPrice) {
+        //판매중인지, productId가 존재하는지 확인해야하는데
+        ClientMessage clientMessage = new ClientMessage();
+        boolean modify = productRepository.modifyPrice(productId,modifyPrice);
+        clientMessage.setProductId(productId);
+        if (!modify) {
+            clientMessage.setStatus("fail");
+        } else {
+            clientMessage.setStatus("success!");
+        }
         return clientMessage;
     }
 }

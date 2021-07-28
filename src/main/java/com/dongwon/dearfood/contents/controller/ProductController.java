@@ -55,11 +55,20 @@ public class ProductController {
             @RequestPart(name = "productImage") MultipartFile productImage) throws IOException {
         return service.addProduct(categoryId, productName, price, description, content, productImage);
     }
+
     @PatchMapping(value = "/delete/{productId}")
     public ClientMessage deleteProduct(
-            @PathVariable(name = "productId") int productId ) throws Exception {
+            @PathVariable(name = "productId") int productId) throws Exception {
         return service.deleteProduct(productId);
     }
+
+    @PatchMapping(value = "/modify/{productId}")
+    public ClientMessage modifyPrice(
+            @PathVariable(name = "productId") int productId,
+            @RequestParam(name = "modifyPrice", defaultValue = "20000") String modifyPrice) throws Exception {
+        return service.modifyPrice(productId, modifyPrice);
+    }
+
 
 }
 

@@ -54,4 +54,8 @@ public class ProductRepository {
     public boolean deleteProduct(int productId) {
         return mapper.deleteProduct(productId);
     }
+
+    public boolean modifyPrice(int productId,String modifyPrice) {
+        return mapper.modifyPrice(productId,modifyPrice);
+    }
 }
