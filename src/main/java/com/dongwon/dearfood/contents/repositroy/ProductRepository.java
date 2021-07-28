@@ -1,13 +1,11 @@
 package com.dongwon.dearfood.contents.repositroy;
 
-import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
-import com.dongwon.dearfood.contents.domain.Product;
-import com.dongwon.dearfood.contents.domain.ProductApiDomain;
-import com.dongwon.dearfood.contents.domain.ProductDomain;
+import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,16 +29,14 @@ public class ProductRepository {
     }
 
     public AddProductApiDomain addProduct(AddProductReq addReq) {
-        AddProductApiDomain addProduct = new AddProductApiDomain();
-        mapper.addProduct(addReq);
-        addProduct.setProductId(addReq.getId());
-        addProduct.setProductName(addReq.getProductName());
-        if (addProduct.getProductId() != 0) {
-            addProduct.setStatus("success");
-        } else {
-            addProduct.setStatus("fail");
-        }
+        return mapper.addProduct(addReq);
+    }
 
-        return addProduct;
+    public UploadImageDomain addImage(UploadImageDomain image) {
+       return mapper.addImage(image);
+    }
+
+    public void addProductImage(int productId,int fileId) {
+        mapper.addProductImage(productId,fileId);
     }
 }

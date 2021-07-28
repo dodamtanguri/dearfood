@@ -11,8 +11,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Api(tags = {"PRODUCT API"})
@@ -40,11 +43,11 @@ public class ProductController {
         return service.getProductDetailList(keyword);
     }
 
-    @PostMapping(value = "/addproduct")
-    public AddProductApiDomain addProduct(@RequestBody AddProductReq addReq) {
-        return service.addProduct(addReq);
+    @PostMapping(value = "/addproduct", produces = MediaType.MULTIPART_FORM_DATA_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public AddProductApiDomain addProduct(@RequestBody AddProductReq addReq,
+                                          @RequestParam(name = "productImage", required = false) MultipartFile productImage) throws IOException {
+        return service.addProduct(addReq, productImage);
     }
-
 
 }
 

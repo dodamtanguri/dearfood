@@ -1,9 +1,6 @@
 package com.dongwon.dearfood.contents.mapper;
 
-import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
-import com.dongwon.dearfood.contents.domain.Product;
-import com.dongwon.dearfood.contents.domain.ProductApiDomain;
-import com.dongwon.dearfood.contents.domain.ProductDomain;
+import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import org.apache.ibatis.annotations.*;
 
@@ -33,9 +30,14 @@ public interface ProductMapper {
     List<ProductDomain> getProductDetailList(@Param("keyword") int keyword);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Result(column = "category_id",property = "addReq.category_id")
     @Insert("INSERT INTO product (category_id, product_name, price, description, content) values (#{category_id},#{productName},#{price},#{description},#{content})")
-    public void addProduct(AddProductReq addReq);
+    public AddProductApiDomain addProduct(AddProductReq addReq);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Insert("INSERT INTO file_info (file_name, save_file_name, content_type) values (#{fileName},#{saveFileName},#{contentType})")
+    public UploadImageDomain addImage(UploadImageDomain image);
 
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Insert("INSERT INTO product_image (#{productId}, #{fileId)")
+    public void addProductImage(@Param("productId") int productId, @Param("fileId") int fileId);
 }

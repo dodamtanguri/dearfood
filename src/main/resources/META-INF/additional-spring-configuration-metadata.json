@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "static.resource.location.img",
+      "type": "java.lang.String",
+      "description": "Description for static.resource.location.img."
+  }
+] }
