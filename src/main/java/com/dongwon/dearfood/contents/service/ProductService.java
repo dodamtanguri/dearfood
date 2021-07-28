@@ -103,13 +103,13 @@ public class ProductService {
         return clientMessage;
     }
 
-    public ClientMessage modifyPrice(int productId,String modifyPrice) {
+    public ClientMessage modifyPrice(int productId, String modifyPrice) {
         //판매중인지, productId가 존재하는지 확인해야하는데
         ClientMessage clientMessage = new ClientMessage();
-        boolean modify = productRepository.modifyPrice(productId,modifyPrice);
+        boolean modify = productRepository.modifyPrice(productId, modifyPrice);
         clientMessage.setProductId(productId);
         if (!modify) {
-            clientMessage.setStatus("fail");
+            clientMessage.setStatus("판매가격 수정에 실패했습니다. 상품번호를 다시 한 번 확인해 주세요.");
         } else {
             clientMessage.setStatus("success!");
         }
