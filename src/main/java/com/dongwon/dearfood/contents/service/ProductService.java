@@ -45,13 +45,14 @@ public class ProductService {
 
     }
 
-    public AddProductApiDomain addProduct(AddProductReq addReq, MultipartFile productImage) throws IOException {
-        productRepository.addProduct(addReq);
+    public AddProductApiDomain addProduct(AddProductReq addReq) throws IOException {
+        productRepository.addProduct(addReq.getProduct());
         AddProductApiDomain addProduct = new AddProductApiDomain();
-        addProduct.setProductId(addReq.getId());
-        addProduct.setProductName(addReq.getProductName());
+       // addProduct.setProductId(addReq.getProduct().getId());
+        addProduct.setProductName(addReq.getProduct().getProductName());
         int productId = addProduct.getProductId();
-        if (productImage != null) {
+        if (addReq.getProductImage() != null) {
+            MultipartFile productImage = addReq.getProductImage();
             String saveName = UUID.randomUUID().toString() + "_" + productImage.getOriginalFilename();
 
             UploadImageDomain image = UploadImageDomain.builder()
@@ -60,20 +61,18 @@ public class ProductService {
                     .saveFileName(saveName)
                     .build();
 
-            File target = new File(environment.getProperty("static.resource.location.img"),saveName);
-            FileCopyUtils.copy(productImage.getBytes(),target);
+            File target = new File(environment.getProperty("static.resource.location.img"), saveName);
+            FileCopyUtils.copy(productImage.getBytes(), target);
 
 
             productRepository.addImage(image);
             int fileId = image.getId();
-            productRepository.addProductImage(productId,fileId);
-
-
+            productRepository.addProductImage(productId, fileId);
 
 
         }
 
-        return productRepository.addProduct(addReq);
+        return addProduct;
     }
 
 }

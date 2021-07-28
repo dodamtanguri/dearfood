@@ -1,6 +1,7 @@
 package com.dongwon.dearfood.contents.mapper;
 
 import com.dongwon.dearfood.contents.domain.*;
+import com.dongwon.dearfood.contents.domain.request.AddProduct;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import org.apache.ibatis.annotations.*;
 
@@ -31,7 +32,7 @@ public interface ProductMapper {
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO product (category_id, product_name, price, description, content) values (#{category_id},#{productName},#{price},#{description},#{content})")
-    public AddProductApiDomain addProduct(AddProductReq addReq);
+    public AddProductApiDomain addProduct(AddProduct addReq);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO file_info (file_name, save_file_name, content_type) values (#{fileName},#{saveFileName},#{contentType})")

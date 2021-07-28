@@ -43,10 +43,10 @@ public class ProductController {
         return service.getProductDetailList(keyword);
     }
 
-    @PostMapping(value = "/addproduct", produces = MediaType.MULTIPART_FORM_DATA_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public AddProductApiDomain addProduct(@RequestBody AddProductReq addReq,
-                                          @RequestParam(name = "productImage", required = false) MultipartFile productImage) throws IOException {
-        return service.addProduct(addReq, productImage);
+    @PostMapping(value = "/addproduct")
+    public AddProductApiDomain addProduct(@ModelAttribute AddProductReq addReq) throws IOException {
+        log.info(addReq.getProduct().getProductName());
+        return service.addProduct(addReq);
     }
 
 }
