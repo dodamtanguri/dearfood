@@ -10,5 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductApiDomain {
+    private String status;
     private List<ProductDomain> productList;
+
 }

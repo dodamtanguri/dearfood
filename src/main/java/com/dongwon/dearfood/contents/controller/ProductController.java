@@ -1,7 +1,9 @@
 package com.dongwon.dearfood.contents.controller;
 
+import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
 import com.dongwon.dearfood.contents.domain.Product;
 import com.dongwon.dearfood.contents.domain.ProductApiDomain;
+import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,10 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +39,12 @@ public class ProductController {
             @RequestParam(name = "keyword", required = true, defaultValue = "8") int keyword) throws Exception {
         return service.getProductDetailList(keyword);
     }
+
+    @PostMapping(value = "/addproduct")
+    public AddProductApiDomain addProduct(@RequestBody AddProductReq addReq) {
+        return service.addProduct(addReq);
+    }
+
 
 }
 

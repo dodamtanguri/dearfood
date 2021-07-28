@@ -1,11 +1,11 @@
 package com.dongwon.dearfood.contents.mapper;
 
+import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
 import com.dongwon.dearfood.contents.domain.Product;
 import com.dongwon.dearfood.contents.domain.ProductApiDomain;
 import com.dongwon.dearfood.contents.domain.ProductDomain;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.dongwon.dearfood.contents.domain.request.AddProductReq;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -29,6 +29,13 @@ public interface ProductMapper {
             "         INNER join category c on p.category_id = c.id\n" +
             "         INNER JOIN product_image pi on p.id = pi.product_id\n" +
             "         INNER JOIN file_info fi on pi.file_id = fi.id\n" +
-            "where p.category_id like CONCAT('%', #{keyword}, '%')")
+            "where p.category_id = #{keyword}")
     List<ProductDomain> getProductDetailList(@Param("keyword") int keyword);
+
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Result(column = "category_id",property = "addReq.category_id")
+    @Insert("INSERT INTO product (category_id, product_name, price, description, content) values (#{category_id},#{productName},#{price},#{description},#{content})")
+    public void addProduct(AddProductReq addReq);
+
+
 }
