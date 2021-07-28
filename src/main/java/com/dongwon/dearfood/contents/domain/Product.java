@@ -9,12 +9,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
     private int id;
-    private int category_id;
-    private String product_name;
+    private int categoryId;
+    private String productName;
     private String price;
     private String status;
     private String description;
     private String content;
-    private LocalDateTime create_date;
-    private LocalDateTime modify_date;
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
+    private String deleteFlag;
 }

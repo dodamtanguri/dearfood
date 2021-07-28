@@ -1,6 +1,8 @@
 package com.dongwon.dearfood.contents.controller;
 
+import ch.qos.logback.core.encoder.EchoEncoder;
 import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
+import com.dongwon.dearfood.contents.domain.ClientMessage;
 import com.dongwon.dearfood.contents.domain.Product;
 import com.dongwon.dearfood.contents.domain.ProductApiDomain;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
@@ -52,6 +54,11 @@ public class ProductController {
             @RequestParam(name = "content", defaultValue = "test") String content,
             @RequestPart(name = "productImage") MultipartFile productImage) throws IOException {
         return service.addProduct(categoryId, productName, price, description, content, productImage);
+    }
+    @PatchMapping(value = "/delete/{productId}")
+    public ClientMessage deleteProduct(
+            @PathVariable(name = "productId") int productId ) throws Exception {
+        return service.deleteProduct(productId);
     }
 
 }

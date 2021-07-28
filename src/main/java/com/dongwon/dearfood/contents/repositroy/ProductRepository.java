@@ -50,4 +50,8 @@ public class ProductRepository {
         mapper.addProductFile(image);
         return image.getId();
     }
+
+    public boolean deleteProduct(int productId) {
+        return mapper.deleteProduct(productId);
+    }
 }

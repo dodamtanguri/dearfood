@@ -70,7 +70,7 @@ public class ProductService {
         int productId = addProduct.getProductId();
 
         String saveName = UUID.randomUUID().toString() + "_" + productImage.getOriginalFilename();
-        
+
         UploadImageDomain image = UploadImageDomain.builder()
                 .contentType(productImage.getContentType())
                 .fileName(productImage.getOriginalFilename())
@@ -87,5 +87,20 @@ public class ProductService {
         addProduct.setFileId(fileId);
         addProduct.setProductImageId(productImageId);
         return addProduct;
+    }
+
+    public ClientMessage deleteProduct(int productId) {
+        ClientMessage clientMessage = new ClientMessage();
+        boolean delete = productRepository.deleteProduct(productId);
+        if (!delete) {
+            clientMessage.setProductId(0);
+            clientMessage.setStatus("fail");
+        } else {
+            clientMessage.setProductId(productId);
+            clientMessage.setStatus("success!");
+        }
+
+
+        return clientMessage;
     }
 }

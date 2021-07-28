@@ -42,4 +42,7 @@ public interface ProductMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO file_info (file_name, save_file_name, content_type) values (#{fileName},#{saveFileName},#{contentType})")
     public void addProductFile(UploadImageDomain image);
+
+    @Update("UPDATE product SET delete_flag = 'Y' WHERE id = #{productId};")
+    public boolean deleteProduct(@Param("productId") int productId);
 }
