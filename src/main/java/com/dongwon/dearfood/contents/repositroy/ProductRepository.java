@@ -29,15 +29,25 @@ public class ProductRepository {
         return mapper.getProductDetailList(keyword);
     }
 
-    public AddProductApiDomain addProduct(AddProduct product) {
-        return mapper.addProduct(product);
+    public AddProductApiDomain addProduct(AddProductReq addReq) {
+        AddProductApiDomain addProduct = new AddProductApiDomain();
+        mapper.addProduct(addReq);
+        addProduct.setProductId(addReq.getId());
+        addProduct.setProductName(addReq.getProductName());
+        return addProduct;
     }
 
-    public UploadImageDomain addImage(UploadImageDomain image) {
-       return mapper.addImage(image);
+    public int addProductImage(int fileId, int productId) {
+        AddProductFile file = AddProductFile.builder()
+                .fileId(fileId)
+                .productId(productId)
+                .build();
+        mapper.addProductImage(file);
+        return file.getId();
     }
 
-    public void addProductImage(int productId,int fileId) {
-        mapper.addProductImage(productId,fileId);
+    public int addProductFile(UploadImageDomain image) {
+        mapper.addProductFile(image);
+        return image.getId();
     }
 }
