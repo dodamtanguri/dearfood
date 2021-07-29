@@ -8,13 +8,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCTID;
 
 @Slf4j
 @Service
@@ -32,6 +36,7 @@ public class ProductService {
         return productRepository.getProductDetail();
     }
 
+    @Transactional
     public ProductApiDomain getProductDetailList(int keyword) {
 
         ProductApiDomain domain = new ProductApiDomain();
@@ -45,6 +50,7 @@ public class ProductService {
 
     }
 
+    @Transactional
     public AddProductApiDomain addProduct(AddProductReq addReq) throws IOException {
         AddProductApiDomain addProduct = productRepository.addProduct(addReq);
         if (addProduct.getProductId() != 0) {
@@ -55,7 +61,7 @@ public class ProductService {
         return addProduct;
     }
 
-
+    @Transactional
     public AddProductApiDomain addProduct(int categoryId, String productName, String price, String description, String content, MultipartFile productImage) throws IOException {
 
         AddProductReq req = AddProductReq.builder()
@@ -89,22 +95,17 @@ public class ProductService {
         return addProduct;
     }
 
-    public ClientMessage deleteProduct(int productId) {
-        ClientMessage clientMessage = new ClientMessage();
-        boolean delete = productRepository.deleteProduct(productId);
-        clientMessage.setProductId(productId);
-        if (!delete) {
-            clientMessage.setStatus("fail");
-        } else {
-            clientMessage.setStatus("success!");
+    @Transactional
+    public void deleteProduct(int productId) {
+        try {
+            boolean delete = productRepository.deleteProduct(productId);
+        } catch (NoSuchElementException e) {
+            NOT_EXISTS_PRODUCTID.getMessage();
         }
-
-
-        return clientMessage;
     }
 
+    @Transactional
     public ClientMessage modifyPrice(int productId, String modifyPrice) {
-        //판매중인지, productId가 존재하는지 확인해야하는데
         ClientMessage clientMessage = new ClientMessage();
         boolean modify = productRepository.modifyPrice(productId, modifyPrice);
         clientMessage.setProductId(productId);
