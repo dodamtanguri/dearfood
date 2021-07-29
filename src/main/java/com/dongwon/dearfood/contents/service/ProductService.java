@@ -75,7 +75,7 @@ public class ProductService {
                 .description(description)
                 .content(content)
                 .build();
-        AddProductApiDomain addProduct = productRepository.addProduct(req);
+        AddProductApiDomain addProduct = productRepository.createProduct(req);
 
         int productId = addProduct.getProductId();
 
@@ -90,8 +90,8 @@ public class ProductService {
         File target = new File(environment.getProperty("static.resource.location.img"), saveName);
         FileCopyUtils.copy(productImage.getBytes(), target);
 
-        int fileId = productRepository.addProductFile(image);
-        int productImageId = productRepository.addProductImage(fileId, productId);
+        int fileId = productRepository.createProductFile(image);
+        int productImageId = productRepository.createProductImage(fileId, productId);
 
         addProduct.setFileId(fileId);
         addProduct.setProductImageId(productImageId);
