@@ -10,7 +10,6 @@ public class AddProductApiDomain {
 
     private int productId;
     private String productName;
-    private String status;
     private int fileId;
     private int productImageId;
 }

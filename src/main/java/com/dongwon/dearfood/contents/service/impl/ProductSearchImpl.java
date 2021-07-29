@@ -24,12 +24,11 @@ public class ProductSearchImpl implements ProductSearchService {
 
     @Autowired
     Environment environment;
-    private final String OPENAPI_URL = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=";
 
     @Override
     public ProductSearchResponse getProductSearchApi(String keyword, String apiCode, String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException {
-        String url = OPENAPI_URL + environment.getProperty("statc.resource.location.API_KEY") + "&apiCode=" + apiCode + "&keyword=" + keyword;
-
+        String OPEN_API_URL = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=";
+        String url = OPEN_API_URL + environment.getProperty("static.resource.location.API_KEY") + "&apiCode=" + apiCode + "&keyword=" + keyword;
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -39,13 +38,11 @@ public class ProductSearchImpl implements ProductSearchService {
 
         ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, enti, String.class);
 
-        ProductSearchResponse response = parser(res.getBody());
-        return response;
+        return parser(res.getBody());
     }
 
     private ProductSearchResponse parser(String body) throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
-        ProductSearchResponse value = xmlMapper.readValue(body, ProductSearchResponse.class);
-        return value;
+        return xmlMapper.readValue(body, ProductSearchResponse.class);
     }
 }

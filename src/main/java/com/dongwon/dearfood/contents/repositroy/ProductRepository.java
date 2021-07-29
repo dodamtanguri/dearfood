@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 
 public class ProductRepository {
-    private ProductMapper mapper;
+    private final ProductMapper mapper;
 
     @Autowired
     public ProductRepository(ProductMapper mapper) {
@@ -55,7 +55,7 @@ public class ProductRepository {
         return mapper.deleteProduct(productId);
     }
 
-    public boolean modifyPrice(int productId,String modifyPrice) {
-        return mapper.modifyPrice(productId,modifyPrice);
+    public boolean modifyPrice(int productId, String modifyPrice) {
+        return mapper.modifyPrice(productId, modifyPrice);
     }
 }

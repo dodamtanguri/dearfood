@@ -15,10 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCT_ID;
 
 @Slf4j
 @Service
@@ -39,23 +37,12 @@ public class ProductService {
     @Transactional
     public ProductApiDomain getProductDetailList(int keyword) {
         List<ProductDomain> productDomains = productRepository.getProductDetailList(keyword);
-         return  ProductApiDomain.builder()
+        return ProductApiDomain.builder()
                 .productList(productDomains)
                 .status(productDomains.isEmpty() ? "fail" : "success")
                 .build();
 
 
-    }
-
-    @Transactional
-    public AddProductApiDomain addProduct(AddProductReq addReq) throws IOException {
-        AddProductApiDomain addProduct = productRepository.addProduct(addReq);
-        if (addProduct.getProductId() != 0) {
-            addProduct.setStatus("success");
-        } else {
-            addProduct.setStatus("fail");
-        }
-        return addProduct;
     }
 
     @Transactional
@@ -82,13 +69,13 @@ public class ProductService {
 
         File target = new File(environment.getProperty("static.resource.location.img"), saveName);
         FileCopyUtils.copy(productImage.getBytes(), target);
-        int fileId = productRepository.addProductFile(image);
-        System.out.println("fileId:" + fileId);
 
+        int fileId = productRepository.addProductFile(image);
         int productImageId = productRepository.addProductImage(fileId, productId);
 
         addProduct.setFileId(fileId);
         addProduct.setProductImageId(productImageId);
+
         return addProduct;
     }
 

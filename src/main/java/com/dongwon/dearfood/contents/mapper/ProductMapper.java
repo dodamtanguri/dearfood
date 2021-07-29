@@ -13,17 +13,17 @@ public interface ProductMapper {
 
     @Select("SELECT p.id,\n" +
             "       p.product_name,\n" +
-            "       p.category_id as categoryId,\n" +
+            "       p.category_id  categoryId,\n" +
             "       c.parent_id,\n" +
-            "       c.name        as categoryName,\n" +
-            "       p.description as description,\n" +
-            "       p.content     as content,\n" +
-            "       p.price       as price,\n" +
-            "       fi.file_name  as fileName,\n" +
-            "       pi.id         as productImageId,\n" +
-            "       p.create_date as createDate,\n" +
-            "       p.modify_date as modifyDate,\n" +
-            "       p.delete_flag as deleteFlag\n" +
+            "       c.name         categoryName,\n" +
+            "       p.description  description,\n" +
+            "       p.content      content,\n" +
+            "       p.price        price,\n" +
+            "       fi.file_name   fileName,\n" +
+            "       pi.id          productImageId,\n" +
+            "       p.create_date  createDate,\n" +
+            "       p.modify_date  modifyDate,\n" +
+            "       p.delete_flag  deleteFlag\n" +
             "FROM product p\n" +
             "         INNER join category c on p.category_id = c.id\n" +
             "         INNER JOIN product_image pi on p.id = pi.product_id\n" +
