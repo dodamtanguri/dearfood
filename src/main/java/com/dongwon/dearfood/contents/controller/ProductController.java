@@ -64,7 +64,7 @@ public class ProductController {
             @RequestParam(name = "description", defaultValue = "test") String description,
             @RequestParam(name = "content", defaultValue = "test") String content,
             @RequestPart(name = "productImage") MultipartFile productImage) throws IOException {
-        return service.addProduct(categoryId, productName, price, description, content, productImage);
+        return service.createProduct(categoryId, productName, price, description, content, productImage);
     }
 
     @ApiOperation(value = "상품 판매중지")

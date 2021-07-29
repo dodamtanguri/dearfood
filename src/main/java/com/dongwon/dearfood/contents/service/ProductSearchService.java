@@ -8,6 +8,6 @@ import java.io.IOException;
 public interface ProductSearchService {
 
 
-    ProductSearchResponse getProductSearchApi(String keyword, String apiCode,  String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException;
+    ProductSearchResponse getProductSearchApi(String keyword, String type,  String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException;
 }
 

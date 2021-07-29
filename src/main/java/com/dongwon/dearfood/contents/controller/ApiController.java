@@ -30,13 +30,13 @@ public class ApiController {
     //(value = "/productSearch", produces = "application/json;charset=UTF-8")
     public ResponseEntity<?> productSearch(
             @RequestParam(name = "keyword", defaultValue = "open") String keyword,
-            @RequestParam(name = "apiCode", defaultValue = "ProductSearch") String apiCode,
+            @RequestParam(name = "type", defaultValue = "ProductSearch") String type,
             @RequestParam(name = "pageNum", defaultValue = "2") String pageNum,
             @RequestParam(name = "pageSize", required = false) String pageSize,
             @RequestParam(name = "sortCd", required = false) String sortCd,
             @RequestParam(name = "option", required = false) String option,
             @RequestParam(name = "targetSearchPrd", required = false) String targetSearchPrd) throws Exception {
-        return ResponseEntity.ok().body(productSearchService.getProductSearchApi(keyword, apiCode, pageNum, pageSize, sortCd, option, targetSearchPrd));
+        return ResponseEntity.ok().body(productSearchService.getProductSearchApi(keyword, type, pageNum, pageSize, sortCd, option, targetSearchPrd));
 
     }
 }

@@ -22,13 +22,26 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ProductSearchImpl implements ProductSearchService {
 
-    @Autowired
-    Environment environment;
 
+    private final Environment environment;
+
+    /**
+     * 11번가 상품 조회 API
+     *
+     * @param keyword         검색 키워드
+     * @param type            productSearch
+     * @param pageNum         페이지 숫자
+     * @param pageSize        페이지 사이즈
+     * @param sortCd          정렬 코드
+     * @param option          옵션
+     * @param targetSearchPrd
+     * @return ProductSearchResponse
+     * @throws IOException
+     */
     @Override
-    public ProductSearchResponse getProductSearchApi(String keyword, String apiCode, String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException {
-        String OPEN_API_URL = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=";
-        String url = OPEN_API_URL + environment.getProperty("static.resource.location.API_KEY") + "&apiCode=" + apiCode + "&keyword=" + keyword;
+    public ProductSearchResponse getProductSearchApi(String keyword, String type, String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException {
+        String OPEN_API_URL = environment.getProperty("static.resource.location.URL");
+        String url = OPEN_API_URL + environment.getProperty("static.resource.location.API_KEY") + "&apiCode=" + type + "&keyword=" + keyword;
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -41,6 +54,13 @@ public class ProductSearchImpl implements ProductSearchService {
         return parser(res.getBody());
     }
 
+    /**
+     * XML 파싱
+     *
+     * @param body XML 데이터
+     * @return ProductSearchResponse
+     * @throws IOException
+     */
     private ProductSearchResponse parser(String body) throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
         return xmlMapper.readValue(body, ProductSearchResponse.class);
