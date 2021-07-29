@@ -44,9 +44,9 @@ public interface ProductMapper {
     @Insert("INSERT INTO file_info (file_name, save_file_name, content_type) values (#{fileName},#{saveFileName},#{contentType})")
     public void addProductFile(UploadImageDomain image);
 
-    @Update("UPDATE product SET delete_flag = 'Y' WHERE id = #{productId};")
+    @Update("UPDATE product SET delete_flag = 'Y', modify_date = now() WHERE id = #{productId};")
     public boolean deleteProduct(@Param("productId") int productId);
 
-    @Update("UPDATE product SET price = #{modifyPrice} WHERE id = #{productId}")
+    @Update("UPDATE product SET price = #{modifyPrice}, modify_date = now() WHERE id = #{productId}")
     boolean modifyPrice(@Param("productId") int productId, @Param("modifyPrice") String modifyPrice);
 }
