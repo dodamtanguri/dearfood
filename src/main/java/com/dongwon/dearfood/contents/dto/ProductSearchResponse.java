@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +14,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductSearchResponse {
-
     @JacksonXmlElementWrapper(useWrapping = false)
     private Products Products;
 

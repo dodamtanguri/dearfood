@@ -1,12 +1,10 @@
 package com.dongwon.dearfood.contents.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.dongwon.dearfood.commons.exception.CustomRequestException;
 import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
 import com.dongwon.dearfood.contents.domain.ClientMessage;
 import com.dongwon.dearfood.contents.domain.Product;
 import com.dongwon.dearfood.contents.domain.ProductApiDomain;
-import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,14 +12,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Api(tags = {"PRODUCT API"})
 @Slf4j
@@ -78,10 +74,10 @@ public class ProductController {
             @ApiResponse(code = 500, message = "Internal Server Error", response = CustomRequestException.class)
     })
     @PatchMapping(value = "/{productId}/suspend")
-    public ResponseEntity<?> deleteProduct(
+    public ClientMessage deleteProduct(
             @PathVariable(name = "productId") int productId) throws Exception {
-        service.deleteProduct(productId);
-        return ResponseEntity.noContent().build();
+
+        return service.deleteProduct(productId);
     }
 
     @ApiOperation(value = "상품 가격 수정")
@@ -91,13 +87,16 @@ public class ProductController {
             @ApiResponse(code = 500, message = "Internal Server Error", response = CustomRequestException.class)
     })
     @PatchMapping(value = "/{productId}/price")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ClientMessage modifyPrice(
             @PathVariable(name = "productId") int productId,
             @RequestParam(name = "modifyPrice", defaultValue = "20000") String modifyPrice) throws Exception {
         return service.modifyPrice(productId, modifyPrice);
     }
 
+    @ExceptionHandler(value = NoSuchElementException.class)
+    public String exception(NoSuchElementException e) {
+        return e.getMessage();
+    }
 
 }
 

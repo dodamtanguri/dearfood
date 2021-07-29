@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCTID;
+import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCT_ID;
 
 @Slf4j
 @Service
@@ -38,15 +38,12 @@ public class ProductService {
 
     @Transactional
     public ProductApiDomain getProductDetailList(int keyword) {
+        List<ProductDomain> productDomains = productRepository.getProductDetailList(keyword);
+         return  ProductApiDomain.builder()
+                .productList(productDomains)
+                .status(productDomains.isEmpty() ? "fail" : "success")
+                .build();
 
-        ProductApiDomain domain = new ProductApiDomain();
-        domain.setProductList(productRepository.getProductDetailList(keyword));
-        if (domain.getProductList().isEmpty()) {
-            domain.setStatus("error");
-        } else {
-            domain.setStatus("success");
-        }
-        return domain;
 
     }
 
@@ -96,24 +93,21 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(int productId) {
-        try {
-            boolean delete = productRepository.deleteProduct(productId);
-        } catch (NoSuchElementException e) {
-            NOT_EXISTS_PRODUCTID.getMessage();
-        }
+    public ClientMessage deleteProduct(int productId) {
+        boolean delete = productRepository.deleteProduct(productId);
+
+        return ClientMessage.builder()
+                .productId(productId)
+                .status(delete ? "success" : "fail")
+                .build();
     }
 
     @Transactional
     public ClientMessage modifyPrice(int productId, String modifyPrice) {
-        ClientMessage clientMessage = new ClientMessage();
         boolean modify = productRepository.modifyPrice(productId, modifyPrice);
-        clientMessage.setProductId(productId);
-        if (!modify) {
-            clientMessage.setStatus("판매가격 수정에 실패했습니다. 상품번호를 다시 한 번 확인해 주세요.");
-        } else {
-            clientMessage.setStatus("success!");
-        }
-        return clientMessage;
+        return ClientMessage.builder()
+                .productId(productId)
+                .status(modify ? "success" : "fail")
+                .build();
     }
 }

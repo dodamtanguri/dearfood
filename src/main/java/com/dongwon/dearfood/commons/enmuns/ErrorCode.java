@@ -12,7 +12,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public enum ErrorCode {
     SUCCESS(OK, "Success"), ERROR(INTERNAL_SERVER_ERROR, "Internal Server Error"),
 
-    NOT_EXISTS_PRODUCTID(BAD_REQUEST, "BAD REQUEST"), UNVALID_UUID(BAD_REQUEST, "BAD REQUEST");
+    NOT_EXISTS_PRODUCT_ID(BAD_REQUEST, "BAD REQUEST");
 
     private final HttpStatus status;
     private final String message;

@@ -1,7 +1,6 @@
 package com.dongwon.dearfood.contents.domain;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter

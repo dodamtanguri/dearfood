@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ProductApiDomain {
     private String status;
     private List<ProductDomain> productList;

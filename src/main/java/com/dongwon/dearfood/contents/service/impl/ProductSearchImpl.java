@@ -6,6 +6,8 @@ import com.dongwon.dearfood.contents.service.ProductSearchService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,14 +22,13 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ProductSearchImpl implements ProductSearchService {
 
-
-    private final String OPENAPI_KEYS = "260524363cf2ded7844278c449b651f0";
-
+    @Autowired
+    Environment environment;
     private final String OPENAPI_URL = "http://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=";
 
     @Override
     public ProductSearchResponse getProductSearchApi(String keyword, String apiCode, String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException {
-        String url = OPENAPI_URL + OPENAPI_KEYS + "&apiCode=" + apiCode + "&keyword=" + keyword;
+        String url = OPENAPI_URL + environment.getProperty("statc.resource.location.API_KEY") + "&apiCode=" + apiCode + "&keyword=" + keyword;
 
 
         RestTemplate restTemplate = new RestTemplate();

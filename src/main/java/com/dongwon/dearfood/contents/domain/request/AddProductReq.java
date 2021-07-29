@@ -3,7 +3,6 @@ package com.dongwon.dearfood.contents.domain.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter

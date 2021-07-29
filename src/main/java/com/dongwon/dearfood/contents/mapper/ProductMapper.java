@@ -1,7 +1,6 @@
 package com.dongwon.dearfood.contents.mapper;
 
 import com.dongwon.dearfood.contents.domain.*;
-import com.dongwon.dearfood.contents.domain.request.AddProduct;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import org.apache.ibatis.annotations.*;
 
