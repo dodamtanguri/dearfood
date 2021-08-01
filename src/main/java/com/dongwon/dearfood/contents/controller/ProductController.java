@@ -59,10 +59,10 @@ public class ProductController {
     @PostMapping
     public AddProductApiDomain addProduct(
             @RequestParam(name = "categoryId", defaultValue = "8") int categoryId,
-            @RequestParam(name = "productName", defaultValue = "test") String productName,
-            @RequestParam(name = "price", defaultValue = "10000") String price,
-            @RequestParam(name = "description", defaultValue = "test") String description,
-            @RequestParam(name = "content", defaultValue = "test") String content,
+            @RequestParam(name = "productName", defaultValue = "test 상품") String productName,
+            @RequestParam(name = "price", defaultValue = "50000") String price,
+            @RequestParam(name = "description", defaultValue = "test 상품 입니다.") String description,
+            @RequestParam(name = "content", defaultValue = "test 상품 입니다.") String content,
             @RequestPart(name = "productImage") MultipartFile productImage) throws IOException {
         return service.createProduct(categoryId, productName, price, description, content, productImage);
     }
