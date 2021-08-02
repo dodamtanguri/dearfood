@@ -11,25 +11,7 @@ public interface ProductMapper {
 
     public List<Product> getProductDetail() throws Exception;
 
-    @Select("SELECT p.id,\n" +
-            "       p.product_name,\n" +
-            "       p.category_id  categoryId,\n" +
-            "       c.parent_id,\n" +
-            "       c.name         categoryName,\n" +
-            "       p.description  description,\n" +
-            "       p.content      content,\n" +
-            "       p.price        price,\n" +
-            "       fi.file_name   fileName,\n" +
-            "       pi.id          productImageId,\n" +
-            "       p.create_date  createDate,\n" +
-            "       p.modify_date  modifyDate,\n" +
-            "       p.delete_flag  deleteFlag\n" +
-            "FROM product p\n" +
-            "         INNER join category c on p.category_id = c.id\n" +
-            "         INNER JOIN product_image pi on p.id = pi.product_id\n" +
-            "         INNER JOIN file_info fi on pi.file_id = fi.id\n" +
-            "WHERE p.category_id = #{keyword}")
-    List<ProductDomain> getProductDetailList(@Param("keyword") int keyword);
+    List<ProductDomain> getProductDetailList(int keyword);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Result(column = "category_id", property = "addReq.category_id")

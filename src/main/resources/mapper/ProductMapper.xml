@@ -5,6 +5,27 @@
 
 <mapper namespace="com.dongwon.dearfood.contents.mapper.ProductMapper">
     <select id="getProductDetail" resultType="Product">
-        SELECT * FROM product
+        SELECT *
+        FROM product
+    </select>
+    <select id="getProductDetailList" resultType="productDomain">
+        SELECT p.id,
+               p.product_name,
+               p.category_id as categoryId,
+               c.parent_id,
+               c.name        as categoryName,
+               p.description as description,
+               p.content     as content,
+               p.price       as price,
+               fi.file_name  as fileName,
+               pi.id         as productImageId,
+               p.create_date as createDate,
+               p.modify_date as modifyDate,
+               p.delete_flag as deleteFalg
+        FROM product p
+                 INNER JOIN category c on p.category_id = c.id
+                 INNER JOIN product_image pi on p.id = pi.product_id
+                 INNER JOIN file_info fi on pi.file_id = fi.id
+        where p.category_id = #{keyword};
     </select>
 </mapper>
