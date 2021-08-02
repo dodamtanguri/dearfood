@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ProductMapper {
-    @Select("SELECT * FROM product")
+
     public List<Product> getProductDetail() throws Exception;
 
     @Select("SELECT p.id,\n" +

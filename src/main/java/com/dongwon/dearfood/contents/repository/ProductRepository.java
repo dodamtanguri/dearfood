@@ -1,13 +1,10 @@
-package com.dongwon.dearfood.contents.repositroy;
+package com.dongwon.dearfood.contents.repository;
 
 import com.dongwon.dearfood.contents.domain.*;
-import com.dongwon.dearfood.contents.domain.request.AddProduct;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

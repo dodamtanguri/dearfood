@@ -3,7 +3,7 @@ package com.dongwon.dearfood.contents.service;
 
 import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
-import com.dongwon.dearfood.contents.repositroy.ProductRepository;
+import com.dongwon.dearfood.contents.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
