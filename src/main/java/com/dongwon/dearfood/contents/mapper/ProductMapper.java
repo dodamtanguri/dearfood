@@ -9,26 +9,19 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-     List<Product> getProductDetail() throws Exception;
+    List<Product> getProductDetail() throws Exception;
 
     List<ProductDomain> getProductDetailList(@Param("keyword") int keyword);
 
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Result(column = "category_id", property = "addReq.category_id")
-    @Insert("INSERT INTO product (category_id, product_name, price, description, content) values (#{category_id},#{productName},#{price},#{description},#{content})")
-    public void addProduct(AddProductReq addReq);
+    void addProduct(AddProductReq addReq);
 
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("INSERT INTO product_image (product_id, file_id) values(#{productId},#{fileId})")
-    public void addProductImage(AddProductFile file);
+    void addProductImage(AddProductFile file);
 
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    @Insert("INSERT INTO file_info (file_name, save_file_name, content_type) values (#{fileName},#{saveFileName},#{contentType})")
-    public void addProductFile(UploadImageDomain image);
+    void addProductFile(UploadImageDomain image);
 
-    @Update("UPDATE product SET delete_flag = 'Y', modify_date = now() WHERE id = #{productId};")
-    public boolean deleteProduct(@Param("productId") int productId);
+    int deleteProduct(@Param("productId") int productId);
 
-    @Update("UPDATE product SET price = #{modifyPrice}, modify_date = now() WHERE id = #{productId}")
-    boolean modifyPrice(@Param("productId") int productId, @Param("modifyPrice") String modifyPrice);
+    int modifyPrice(@Param("productId") int productId, @Param("modifyPrice") String modifyPrice);
+
+    int checkDeleteFlag(@Param("productId") int productId);
 }

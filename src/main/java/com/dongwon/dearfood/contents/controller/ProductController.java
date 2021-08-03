@@ -1,6 +1,7 @@
 package com.dongwon.dearfood.contents.controller;
 
 import com.dongwon.dearfood.commons.exception.CustomRequestException;
+import com.dongwon.dearfood.commons.exception.SuspendAlreadyExistException;
 import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
 import com.dongwon.dearfood.contents.domain.ClientMessage;
 import com.dongwon.dearfood.contents.domain.Product;
@@ -75,7 +76,7 @@ public class ProductController {
     })
     @PatchMapping(value = "/{productId}/suspend")
     public ClientMessage deleteProduct(
-            @PathVariable(name = "productId") int productId) throws Exception {
+            @PathVariable(name = "productId") int productId) throws Exception, SuspendAlreadyExistException {
 
         return service.deleteProduct(productId);
     }

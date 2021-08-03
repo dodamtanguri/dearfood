@@ -1,6 +1,7 @@
 package com.dongwon.dearfood.contents.service;
 
 
+import com.dongwon.dearfood.commons.exception.SuspendAlreadyExistException;
 import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.repository.ProductRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -106,14 +108,25 @@ public class ProductService {
      * @return ClientMessage
      */
     @Transactional
-    public ClientMessage deleteProduct(int productId) {
-        boolean delete = productRepository.deleteProduct(productId);
+    public ClientMessage deleteProduct(int productId) throws Exception, SuspendAlreadyExistException {
+        int checkDeleteFlag = productRepository.checkDeleteFlag(productId);
+        log.info(String.valueOf(checkDeleteFlag));
+        if (checkDeleteFlag == 1) {
+            throw new SuspendAlreadyExistException();
+        } else {
+            int delete = productRepository.deleteProduct(productId);
+            if (delete == 0) throw new RuntimeException();
+            return ClientMessage.builder()
+                    .status("success")
+                    .productId(productId)
+                    .build();
 
-        return ClientMessage.builder()
-                .productId(productId)
-                .status(delete ? "success" : "fail")
-                .build();
+        }
+
     }
+
+
+
 
     /**
      * modifyPrice 상품 가격 수정
@@ -124,10 +137,15 @@ public class ProductService {
      */
     @Transactional
     public ClientMessage modifyPrice(int productId, String modifyPrice) {
-        boolean modify = productRepository.modifyPrice(productId, modifyPrice);
-        return ClientMessage.builder()
-                .productId(productId)
-                .status(modify ? "success" : "fail")
-                .build();
+        int modify = productRepository.modifyPrice(productId, modifyPrice);
+        if (modify == 0) {
+            throw new RuntimeException();
+        } else {
+            return ClientMessage.builder()
+                    .productId(productId)
+                    .status("success")
+                    .build();
+        }
+
     }
 }

@@ -76,8 +76,8 @@ public class ProductRepository {
      * @param productId 상품 아이디
      * @return boolean
      */
-    public boolean deleteProduct(int productId) {
-        return mapper.deleteProduct(productId);
+    public int deleteProduct(int productId) {
+            return mapper.deleteProduct(productId);
     }
 
     /**
@@ -86,7 +86,11 @@ public class ProductRepository {
      * @param modifyPrice 수정할 상품 아이디
      * @return boolean
      */
-    public boolean modifyPrice(int productId, String modifyPrice) {
+    public int modifyPrice(int productId, String modifyPrice) {
         return mapper.modifyPrice(productId, modifyPrice);
+    }
+
+    public int checkDeleteFlag(int productId) {
+        return mapper.checkDeleteFlag(productId);
     }
 }
