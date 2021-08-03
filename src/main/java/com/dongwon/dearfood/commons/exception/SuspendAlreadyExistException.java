@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 
 public class SuspendAlreadyExistException extends Exception {
-    @ApiModelProperty(value = "Http status code", example = "INTERNAL_SERVER_ERROR")
+    @ApiModelProperty(value = "Http status code", example = "BAD_REQUEST")
     private HttpStatus status;
 
     @ApiModelProperty(value = "Error Message", example = "이미 판매 중지된 상품입니다.")

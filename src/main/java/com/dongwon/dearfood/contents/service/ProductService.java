@@ -1,6 +1,7 @@
 package com.dongwon.dearfood.contents.service;
 
 
+import com.dongwon.dearfood.commons.enmuns.ErrorCode;
 import com.dongwon.dearfood.commons.exception.SuspendAlreadyExistException;
 import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
@@ -18,6 +19,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+
+import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCT_ID;
+import static com.dongwon.dearfood.commons.enmuns.ErrorCode.SUCCESS;
 
 
 @Slf4j
@@ -117,16 +121,12 @@ public class ProductService {
             int delete = productRepository.deleteProduct(productId);
             if (delete == 0) throw new RuntimeException();
             return ClientMessage.builder()
-                    .status("success")
+                    .status("상품번호 : " + productId + "의 상태가 [판매중지]로 변경되었습니다.")
                     .productId(productId)
                     .build();
-
         }
 
     }
-
-
-
 
     /**
      * modifyPrice 상품 가격 수정
@@ -136,16 +136,17 @@ public class ProductService {
      * @return ClientMessage
      */
     @Transactional
-    public ClientMessage modifyPrice(int productId, String modifyPrice) {
+    public ClientMessage modifyPrice(int productId, String modifyPrice) throws Exception {
         int modify = productRepository.modifyPrice(productId, modifyPrice);
         if (modify == 0) {
-            throw new RuntimeException();
+            log.info(String.valueOf(modify));
+            throw new Exception();
         } else {
             return ClientMessage.builder()
                     .productId(productId)
-                    .status("success")
+                    .status("[상품번호 :"+productId+"의 가격이 업데이트 되었습니다.")
                     .build();
-        }
 
+        }
     }
 }

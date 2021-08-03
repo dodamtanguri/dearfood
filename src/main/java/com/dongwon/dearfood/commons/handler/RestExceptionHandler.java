@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
-import static org.springframework.http.HttpStatus.ALREADY_REPORTED;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -38,7 +37,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(SuspendAlreadyExistException.class)
     public ResponseEntity<?> handleException(SuspendAlreadyExistException e) {
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new CustomRequestException(e));
+        return ResponseEntity.status(BAD_REQUEST).body(new CustomRequestException(e));
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

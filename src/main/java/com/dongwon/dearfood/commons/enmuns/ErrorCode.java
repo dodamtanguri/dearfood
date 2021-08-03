@@ -10,9 +10,10 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
-    SUCCESS(OK, "Success"), ERROR(INTERNAL_SERVER_ERROR, "Internal Server Error"),
-
-    NOT_EXISTS_PRODUCT_ID(BAD_REQUEST, "BAD REQUEST");
+    SUCCESS(OK, "Success"),
+    ERROR(INTERNAL_SERVER_ERROR, "Internal Server Error"),
+    NOT_EXISTS_PRODUCT_ID(BAD_REQUEST, "존재하지 않는 상품 아이디 입니다."),
+    ALREADY_EXIST_STATUS(BAD_REQUEST, "이미 판매중지 된 상품입니다.");
 
     private final HttpStatus status;
     private final String message;
