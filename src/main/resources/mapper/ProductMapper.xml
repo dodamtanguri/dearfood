@@ -4,28 +4,59 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dongwon.dearfood.contents.mapper.ProductMapper">
+    <resultMap id="ProductDomain" type="productDomain">
+        <!--카테고리-->
+        <result property="parentId" column="parentId"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
+        <!--상품정보-->
+        <result property="id" column="id"/>
+        <result property="productName" column="productName"/>
+        <result property="description" column="description"/>
+        <result property="content" column="content"/>
+        <result property="price" column="price"/>
+        <result property="deleteFlag" column="deleteFlag"/>
+        <result property="createDate" column="createDate"/>
+        <result property="modifyDate" column="modifyDate"/>
+        <!--상품 이미지 정보-->
+        <collection property="productImage" resultMap="ProductImageMap"/>
+    </resultMap>
+
+    <resultMap id="ProductImageMap" type="ProductImage">
+        <id property="id" column="pi_id"/>
+        <result property="deleteFlag" column="pi_delete_flag"/>
+        <collection property="fileInfo" resultMap="fileInfoMap"/>
+    </resultMap>
+
+    <resultMap id="fileInfoMap" type="FileInfo">
+        <id property="id" column="file_id"/>
+        <result property="fileName" column="fileName"/>
+    </resultMap>
+
     <select id="getProductDetail" resultType="Product">
-        SELECT *
-        FROM product
+        SELECT * FROM product
     </select>
-    <select id="getProductDetailList" resultType="productDomain">
-        SELECT p.id,
-               p.product_name,
-               p.category_id as categoryId,
-               c.parent_id,
-               c.name        as categoryName,
-               p.description as description,
-               p.content     as content,
-               p.price       as price,
-               fi.file_name  as fileName,
-               pi.id         as productImageId,
-               p.create_date as createDate,
-               p.modify_date as modifyDate,
-               p.delete_flag as deleteFalg
-        FROM product p
-                 INNER JOIN category c on p.category_id = c.id
-                 INNER JOIN product_image pi on p.id = pi.product_id
-                 INNER JOIN file_info fi on pi.file_id = fi.id
+    <select id="getProductDetailList" resultType="ProductDomain" resultMap="ProductDomain">
+        SELECT      c.parent_id as parentId,
+                    p.category_id as categoryId,
+                    c.name as categoryName,
+                    p.id,
+                    p.product_name as productName,
+                    p.description as description,
+                    p.content as content,
+                    p.price as price,
+                    p.delete_flag as deleteFlag,
+                    p.create_date as createDate,
+                    p.modify_date as modifyDate,
+                    pi.id as pi_id,
+                    pi.delet_flag as pi_delete_flag,
+                    fi.id as file_id,
+                    fi.file_name as fileName
+                    FROM product p
+        INNER JOIN category c on p.category_id = c.id
+        INNER JOIN product_image pi on p.id = pi.product_id
+        INNER JOIN file_info fi on pi.file_id = fi.id
         where p.category_id = #{keyword};
     </select>
+
 </mapper>

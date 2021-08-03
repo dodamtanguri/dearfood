@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-    public List<Product> getProductDetail() throws Exception;
+     List<Product> getProductDetail() throws Exception;
 
-    List<ProductDomain> getProductDetailList(int keyword);
+    List<ProductDomain> getProductDetailList(@Param("keyword") int keyword);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Result(column = "category_id", property = "addReq.category_id")
