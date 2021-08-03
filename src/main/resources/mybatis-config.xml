@@ -8,5 +8,6 @@
     </typeAliases>
     <mappers>
         <mapper resource="mapper/ProductMapper.xml"/>
+        <mapper resource="mapper/CategoryMapper.xml"/>
     </mappers>
 </configuration>

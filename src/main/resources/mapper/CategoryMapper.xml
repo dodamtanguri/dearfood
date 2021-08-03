@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dongwon.dearfood.contents.mapper.CategoryMapper">
+
+    <select id="getCategoryList" resultType="com.dongwon.dearfood.contents.domain.Category">
+        SELECT
+            c1.title as 'level1',
+            c2.title as 'level2',
+            c3.title as 'level3',
+            c4.title as 'level4'
+        FROM
+            category as c1
+                left join category as c2 on c2.parent_id = c1.id
+                left join category as c3 on c3.parent_id = c2.id
+                left join category as c4 on c4.parent_id = c3.id
+                    where c1.title = 'food';
+    </select>
+</mapper>
