@@ -39,7 +39,7 @@
     <select id="getProductDetailList" resultType="ProductDomain" resultMap="ProductDomain">
         SELECT c.parent_id as parentId,
         p.category_id as categoryId,
-        c.name as categoryName,
+        c.title as categoryName,
         p.id,
         p.product_name as productName,
         p.description as description,
@@ -49,7 +49,7 @@
         p.create_date as createDate,
         p.modify_date as modifyDate,
         pi.id as pi_id,
-        pi.delet_flag as pi_delete_flag,
+        pi.delete_flag as pi_delete_flag,
         fi.id as file_id,
         fi.file_name as fileName
         FROM product p
