@@ -90,7 +90,7 @@ public class ProductRepository {
         return mapper.modifyPrice(productId, modifyPrice);
     }
 
-    public int checkDeleteFlag(int productId) {
+    public Integer checkDeleteFlag(int productId) {
         return mapper.checkDeleteFlag(productId);
     }
 }

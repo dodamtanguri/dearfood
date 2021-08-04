@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
-public class SuspendAlreadyExistException extends Exception {
+public class NoExistIdException extends Exception{
     @ApiModelProperty(value = "Http status code", example = "BAD_REQUEST")
     private HttpStatus status;
 
@@ -18,12 +18,12 @@ public class SuspendAlreadyExistException extends Exception {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime timeStamp;
 
-    public SuspendAlreadyExistException() {
+    public NoExistIdException() {
         this.timeStamp = LocalDateTime.now();
     }
 
 
-    public SuspendAlreadyExistException(ErrorCode code) {
+    public NoExistIdException(ErrorCode code) {
         this();
         this.status = code.getStatus();
         this.errorMessage = code.getMessage();

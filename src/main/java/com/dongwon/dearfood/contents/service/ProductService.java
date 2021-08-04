@@ -1,7 +1,7 @@
 package com.dongwon.dearfood.contents.service;
 
 
-import com.dongwon.dearfood.commons.enmuns.ErrorCode;
+import com.dongwon.dearfood.commons.exception.NoExistIdException;
 import com.dongwon.dearfood.commons.exception.SuspendAlreadyExistException;
 import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
@@ -16,12 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
-
-import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCT_ID;
-import static com.dongwon.dearfood.commons.enmuns.ErrorCode.SUCCESS;
 
 
 @Slf4j
@@ -49,14 +45,14 @@ public class ProductService {
      * @return ProductApiDomain
      */
     @Transactional
-    public ProductApiDomain getProductDetailList(int keyword) {
+    public ProductApiDomain getProductDetailList(int keyword) throws NoExistIdException {
         List<ProductDomain> productDomains = productRepository.getProductDetailList(keyword);
-        return ProductApiDomain.builder()
+        log.info(String.valueOf(productDomains));
+        if (productDomains.isEmpty()) throw new NoExistIdException();
+        else return ProductApiDomain.builder()
                 .productList(productDomains)
-                .status(productDomains.isEmpty() ? "fail" : "success")
+                .status("success")
                 .build();
-
-
     }
 
     /**
@@ -112,16 +108,17 @@ public class ProductService {
      * @return ClientMessage
      */
     @Transactional
-    public ClientMessage deleteProduct(int productId) throws Exception, SuspendAlreadyExistException {
-        int checkDeleteFlag = productRepository.checkDeleteFlag(productId);
-        log.info(String.valueOf(checkDeleteFlag));
-        if (checkDeleteFlag == 1) {
+    public ClientMessage deleteProduct(int productId) throws Exception, SuspendAlreadyExistException,NoExistIdException {
+        Integer checkDeleteFlag = productRepository.checkDeleteFlag(productId);
+        if (checkDeleteFlag == null) {
+            throw new NoExistIdException();
+        } else if (checkDeleteFlag == 1) {
             throw new SuspendAlreadyExistException();
         } else {
             int delete = productRepository.deleteProduct(productId);
-            if (delete == 0) throw new RuntimeException();
+            if (delete == 0) throw new NoExistIdException();
             return ClientMessage.builder()
-                    .status("상품번호 : " + productId + "의 상태가 [판매중지]로 변경되었습니다.")
+                    .status("상품번호 : " + productId + " 의 상태가 [판매중지]로 변경되었습니다.")
                     .productId(productId)
                     .build();
         }
@@ -140,11 +137,11 @@ public class ProductService {
         int modify = productRepository.modifyPrice(productId, modifyPrice);
         if (modify == 0) {
             log.info(String.valueOf(modify));
-            throw new Exception();
+            throw new NoExistIdException();
         } else {
             return ClientMessage.builder()
                     .productId(productId)
-                    .status("[상품번호 :"+productId+"의 가격이 업데이트 되었습니다.")
+                    .status("[상품번호 :" + productId + "] 의 가격이 업데이트 되었습니다.")
                     .build();
 
         }

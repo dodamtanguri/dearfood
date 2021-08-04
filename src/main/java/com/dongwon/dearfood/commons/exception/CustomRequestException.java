@@ -9,8 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDateTime;
 
-import static com.dongwon.dearfood.commons.enmuns.ErrorCode.ALREADY_EXIST_STATUS;
-import static com.dongwon.dearfood.commons.enmuns.ErrorCode.NOT_EXISTS_PRODUCT_ID;
+import static com.dongwon.dearfood.commons.enmuns.ErrorCode.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
@@ -42,9 +41,16 @@ public class CustomRequestException {
     public CustomRequestException(SuspendAlreadyExistException e) {
         this();
         this.status = BAD_REQUEST;
-        this.errorMessage = ALREADY_EXIST_STATUS.getMessage();
-        this.errorCode = ALREADY_EXIST_STATUS;
+        this.errorMessage = ALREADY_SUSPEND_STATUS.getMessage();
+        this.errorCode = ALREADY_SUSPEND_STATUS;
 
+    }
+
+    public CustomRequestException(NoExistIdException e) {
+        this();
+        this.status = BAD_REQUEST;
+        this.errorMessage = NO_EXIST_ID.getMessage();
+        this.errorCode = NO_EXIST_ID;
     }
 
     public CustomRequestException(RuntimeException e) {

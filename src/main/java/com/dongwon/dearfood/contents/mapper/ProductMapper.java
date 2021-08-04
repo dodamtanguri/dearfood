@@ -23,5 +23,5 @@ public interface ProductMapper {
 
     int modifyPrice(@Param("productId") int productId, @Param("modifyPrice") String modifyPrice);
 
-    int checkDeleteFlag(@Param("productId") int productId);
+    Integer checkDeleteFlag(@Param("productId") int productId);
 }
