@@ -9,7 +9,6 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-    List<Product> getProductDetail() throws Exception;
 
     List<ProductDomain> getProductDetailList(@Param("keyword") int keyword);
 

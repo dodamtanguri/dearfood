@@ -29,16 +29,6 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     /**
-     * getProductDetail 상품 조회
-     *
-     * @return List
-     * @throws Exception
-     */
-    public List<Product> getProductDetail() throws Exception {
-        return productRepository.getProductDetail();
-    }
-
-    /**
      * getProductDetailList 하위카테고리 상품조회
      *
      * @param keyword 하위카테고리아이디

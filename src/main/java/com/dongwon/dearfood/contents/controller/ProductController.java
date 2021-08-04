@@ -29,17 +29,6 @@ import java.util.NoSuchElementException;
 public class ProductController {
     private final ProductService service;
 
-    @ApiOperation(value = "상품조회")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    @GetMapping
-    public List<Product> productList() throws Exception {
-        return service.getProductDetail();
-    }
-
     @ApiOperation(value = "하위카테고리 상품 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),

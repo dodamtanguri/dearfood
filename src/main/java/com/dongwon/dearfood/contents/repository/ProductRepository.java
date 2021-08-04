@@ -12,16 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductRepository {
     private final ProductMapper mapper;
-
-    /**
-     * 상품 조회
-     * @return
-     * @throws Exception
-     */
-    public List<Product> getProductDetail() throws Exception {
-        return mapper.getProductDetail();
-    }
-
     /**
      * 하위카테고리 상품 조회
      * @param keyword 카테고리 아이디
