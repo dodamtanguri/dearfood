@@ -1,9 +1,11 @@
 package com.dongwon.dearfood.contents.service;
 
 
+import com.dongwon.dearfood.commons.exception.NoExistIdException;
+import com.dongwon.dearfood.commons.exception.SuspendAlreadyExistException;
 import com.dongwon.dearfood.contents.domain.*;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
-import com.dongwon.dearfood.contents.repositroy.ProductRepository;
+import com.dongwon.dearfood.contents.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -27,30 +29,20 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     /**
-     * getProductDetail 상품 조회
-     *
-     * @return List
-     * @throws Exception
-     */
-    public List<Product> getProductDetail() throws Exception {
-        return productRepository.getProductDetail();
-    }
-
-    /**
      * getProductDetailList 하위카테고리 상품조회
      *
      * @param keyword 하위카테고리아이디
      * @return ProductApiDomain
      */
     @Transactional
-    public ProductApiDomain getProductDetailList(int keyword) {
+    public ProductApiDomain getProductDetailList(int keyword) throws NoExistIdException {
         List<ProductDomain> productDomains = productRepository.getProductDetailList(keyword);
-        return ProductApiDomain.builder()
+        log.info(String.valueOf(productDomains));
+        if (productDomains.isEmpty()) throw new NoExistIdException();
+        else return ProductApiDomain.builder()
                 .productList(productDomains)
-                .status(productDomains.isEmpty() ? "fail" : "success")
+                .status("success")
                 .build();
-
-
     }
 
     /**
@@ -106,13 +98,21 @@ public class ProductService {
      * @return ClientMessage
      */
     @Transactional
-    public ClientMessage deleteProduct(int productId) {
-        boolean delete = productRepository.deleteProduct(productId);
+    public ClientMessage deleteProduct(int productId) throws Exception, SuspendAlreadyExistException,NoExistIdException {
+        Integer checkDeleteFlag = productRepository.checkDeleteFlag(productId);
+        if (checkDeleteFlag == null) {
+            throw new NoExistIdException();
+        } else if (checkDeleteFlag == 1) {
+            throw new SuspendAlreadyExistException();
+        } else {
+            int delete = productRepository.deleteProduct(productId);
+            if (delete == 0) throw new NoExistIdException();
+            return ClientMessage.builder()
+                    .status("상품번호 : " + productId + " 의 상태가 [판매중지]로 변경되었습니다.")
+                    .productId(productId)
+                    .build();
+        }
 
-        return ClientMessage.builder()
-                .productId(productId)
-                .status(delete ? "success" : "fail")
-                .build();
     }
 
     /**
@@ -123,11 +123,17 @@ public class ProductService {
      * @return ClientMessage
      */
     @Transactional
-    public ClientMessage modifyPrice(int productId, String modifyPrice) {
-        boolean modify = productRepository.modifyPrice(productId, modifyPrice);
-        return ClientMessage.builder()
-                .productId(productId)
-                .status(modify ? "success" : "fail")
-                .build();
+    public ClientMessage modifyPrice(int productId, String modifyPrice) throws Exception {
+        int modify = productRepository.modifyPrice(productId, modifyPrice);
+        if (modify == 0) {
+            log.info(String.valueOf(modify));
+            throw new NoExistIdException();
+        } else {
+            return ClientMessage.builder()
+                    .productId(productId)
+                    .status("[상품번호 :" + productId + "] 의 가격이 업데이트 되었습니다.")
+                    .build();
+
+        }
     }
 }

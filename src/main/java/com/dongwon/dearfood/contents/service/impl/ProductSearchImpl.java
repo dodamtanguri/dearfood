@@ -1,12 +1,12 @@
 package com.dongwon.dearfood.contents.service.impl;
 
 import com.dongwon.dearfood.contents.dto.ProductSearchResponse;
-import com.dongwon.dearfood.contents.dto.Products;
+
 import com.dongwon.dearfood.contents.service.ProductSearchService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

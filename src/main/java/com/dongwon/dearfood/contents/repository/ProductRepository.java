@@ -1,13 +1,10 @@
-package com.dongwon.dearfood.contents.repositroy;
+package com.dongwon.dearfood.contents.repository;
 
 import com.dongwon.dearfood.contents.domain.*;
-import com.dongwon.dearfood.contents.domain.request.AddProduct;
 import com.dongwon.dearfood.contents.domain.request.AddProductReq;
 import com.dongwon.dearfood.contents.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,16 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductRepository {
     private final ProductMapper mapper;
-
-    /**
-     * 상품 조회
-     * @return
-     * @throws Exception
-     */
-    public List<Product> getProductDetail() throws Exception {
-        return mapper.getProductDetail();
-    }
-
     /**
      * 하위카테고리 상품 조회
      * @param keyword 카테고리 아이디
@@ -79,8 +66,8 @@ public class ProductRepository {
      * @param productId 상품 아이디
      * @return boolean
      */
-    public boolean deleteProduct(int productId) {
-        return mapper.deleteProduct(productId);
+    public int deleteProduct(int productId) {
+            return mapper.deleteProduct(productId);
     }
 
     /**
@@ -89,7 +76,11 @@ public class ProductRepository {
      * @param modifyPrice 수정할 상품 아이디
      * @return boolean
      */
-    public boolean modifyPrice(int productId, String modifyPrice) {
+    public int modifyPrice(int productId, String modifyPrice) {
         return mapper.modifyPrice(productId, modifyPrice);
+    }
+
+    public Integer checkDeleteFlag(int productId) {
+        return mapper.checkDeleteFlag(productId);
     }
 }

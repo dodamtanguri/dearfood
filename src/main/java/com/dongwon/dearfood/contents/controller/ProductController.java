@@ -1,6 +1,8 @@
 package com.dongwon.dearfood.contents.controller;
 
+import com.dongwon.dearfood.commons.enmuns.ErrorCode;
 import com.dongwon.dearfood.commons.exception.CustomRequestException;
+import com.dongwon.dearfood.commons.exception.SuspendAlreadyExistException;
 import com.dongwon.dearfood.contents.domain.AddProductApiDomain;
 import com.dongwon.dearfood.contents.domain.ClientMessage;
 import com.dongwon.dearfood.contents.domain.Product;
@@ -26,17 +28,6 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/v1/product")
 public class ProductController {
     private final ProductService service;
-
-    @ApiOperation(value = "상품조회")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 500, message = "Internal Server Error")
-    })
-    @GetMapping
-    public List<Product> productList() throws Exception {
-        return service.getProductDetail();
-    }
 
     @ApiOperation(value = "하위카테고리 상품 조회")
     @ApiResponses({
@@ -75,7 +66,7 @@ public class ProductController {
     })
     @PatchMapping(value = "/{productId}/suspend")
     public ClientMessage deleteProduct(
-            @PathVariable(name = "productId") int productId) throws Exception {
+            @PathVariable(name = "productId") int productId) throws Exception, SuspendAlreadyExistException {
 
         return service.deleteProduct(productId);
     }
