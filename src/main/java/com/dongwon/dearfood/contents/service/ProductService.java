@@ -36,7 +36,12 @@ public class ProductService {
      */
     @Transactional
     public ProductApiDomain getProductDetailList(int keyword) throws NoExistIdException {
+        ProductApiDomain api = new ProductApiDomain();
+
         List<ProductDomain> productDomains = productRepository.getProductDetailList(keyword);
+
+
+        api.setProductList(productDomains);
         log.info(String.valueOf(productDomains));
         if (productDomains.isEmpty()) throw new NoExistIdException();
         else return ProductApiDomain.builder()
