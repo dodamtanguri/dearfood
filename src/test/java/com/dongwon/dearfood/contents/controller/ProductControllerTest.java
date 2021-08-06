@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class ProductControllerTest {
     private MockMvc mockMvc;
     private final String URI = "/api/v1/product";
@@ -40,6 +43,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("하위카테고리아이디로 상품목록 조회하기 🛠")
     public void shouldFindProductById() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.get(URI + "/subcategory?keyword=8")
                 .accept(MediaType.APPLICATION_JSON)
@@ -67,6 +71,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("상품 가격 수정하기 💰")
     public void shouldUpdatePrice() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.patch(URI + "/1/price?modifyPrice=20000")
                 .accept(MediaType.APPLICATION_JSON)
@@ -81,6 +86,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("유효하지 않은 상품 아이디❌")
     public void shouldVerifyInvalidUpdate() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.patch(URI + "/100/price?modifyPrice=20000")
                 .accept(MediaType.APPLICATION_JSON)
@@ -92,5 +98,6 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.errorMessage")
                         .value("존재하지 않는 아이디 입니다.")).andReturn();
     }
+
 
 }
