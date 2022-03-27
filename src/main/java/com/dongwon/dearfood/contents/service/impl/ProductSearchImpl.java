@@ -40,8 +40,8 @@ public class ProductSearchImpl implements ProductSearchService {
      */
     @Override
     public ProductSearchResponse getProductSearchApi(String keyword, String type, String pageNum, String pageSize, String sortCd, String option, String targetSearchPrd) throws IOException {
-        String OPEN_API_URL = environment.getProperty("static.resource.location.URL");
-        String url = OPEN_API_URL + environment.getProperty("static.resource.location.API_KEY") + "&apiCode=" + type + "&keyword=" + keyword;
+        String OPEN_API_URL = environment.getProperty("11st.URL");
+        String url = OPEN_API_URL + environment.getProperty("11st.API_KEY") + "&apiCode=" + type + "&keyword=" + keyword;
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
